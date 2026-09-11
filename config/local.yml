@@ -1,5 +1,9 @@
 # Development configuration
 
-env:"dev"
+env: "dev"
 
 # We we SQLLite database in this project.
+storage_path: "storage/storage.db"
+
+http_server:
+  address: "localhost:8082"
