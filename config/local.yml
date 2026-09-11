@@ -1,0 +1,5 @@
+# Development configuration
+
+env:"dev"
+
+# We we SQLLite database in this project.
