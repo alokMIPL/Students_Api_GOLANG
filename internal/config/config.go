@@ -4,6 +4,8 @@ import (
 	"flag"
 	"log"
 	"os"
+
+	"github.com/ilyakaznacheev/cleanenv"
 )
 
 type HTTPServer struct {
@@ -20,7 +22,7 @@ type Config struct {
 
 // go mod tidy
 
-func MustLoad() {
+func MustLoad() *Config {
 
 	var configPath string
 
@@ -40,10 +42,12 @@ func MustLoad() {
 
 		flags := flag.String("config", "", "path to the configuration file")
 		// Here we parse the flag value to configPath.
+		// The command-line arguments passed to the program and fills in the values for any registered flags
 		flag.Parse()
 
 		configPath = *flags
 
+		// If, after checking both the environment variable and the command-line flag, configPath is still empty, we have no way to find the config file.
 		// After this if we again not get the configPath then
 		// 3.Method then throw error
 
@@ -59,5 +63,14 @@ func MustLoad() {
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		log.Fatalf("Config file does not exist: %s", configPath)
 	}
+
+	var cfg Config
+
+	err := cleanenv.ReadConfig(configPath, &cfg)
+	if err != nil {
+		log.Fatalf("Cann't read config file: %s", err.Error())
+	}
+
+	return &cfg
 
 }
