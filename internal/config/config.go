@@ -42,7 +42,7 @@ func MustLoad() *Config {
 
 		flags := flag.String("config", "", "path to the configuration file")
 		// Here we parse the flag value to configPath.
-		// The command-line arguments passed to the program and fills in the values for any registered flags
+		// This reads os.Args[1:] (the actual command-line arguments given when you ran the binary, excluding the program name itself at index 0), matches them against all registered flags (like -config), and writes matched values into the memory addresses those flags returned. If you run:
 		flag.Parse()
 
 		configPath = *flags
@@ -62,6 +62,7 @@ func MustLoad() *Config {
 
 	if _, err := os.Stat(configPath); os.IsNotExist(err) {
 		log.Fatalf("Config file does not exist: %s", configPath)
+		// log.Fatalf is like fmt.Printf + log.Fatal combined: it formats the string using %s as a placeholder for configPath, prints it, and exits with status code 1.
 	}
 
 	var cfg Config
