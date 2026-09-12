@@ -33,3 +33,6 @@ go.work.sum
 
 # ignore database also
 storage
+
+# ignore config folder also, we only ignore root level config file.
+/config
