@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/alokMIPL/students-api/internal/config"
+	"github.com/alokMIPL/students-api/internal/http/handlers/student"
 )
 
 func main() {
@@ -27,9 +28,7 @@ func main() {
 	// setup router
 	router := http.NewServeMux()
 
-	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Welcome to students api"))
-	})
+	router.HandleFunc("POST /api/students", student.New())
 
 	// setup server
 	server := http.Server{
@@ -38,8 +37,6 @@ func main() {
 	}
 
 	slog.Info("Server started", slog.String("address", cfg.Addr))
-
-	// fmt.Println("Server stared as = ", cfg.HTTPServer.Addr)
 
 	done := make(chan os.Signal, 1)
 
